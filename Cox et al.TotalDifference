@@ -1,0 +1,87 @@
+input_path = getDirectory("R:/Frontal Sinus Project/Cox_AAFS 2022/Radiographs for AAFS2022/1. Primary.Sample/");
+
+
+fileList = getFileList(input_path);
+
+for (i = 0; i < fileList.length; i++) {
+
+	//clean to prepare for next image
+	roiManager("reset");
+	roiManager("open", "R:/Frontal Sinus Project/Cox_AAFS 2022/Radiographs for AAFS2022/1. Primary.Sample/Roi_COXStarters.zip");
+	run("Close All");
+	run("Clear Results");
+	
+	//open image
+	open(input_path + fileList[i+1]); //add a +number to change the start image
+	print(input_path + fileList[i+1]); //display the file working on
+
+	//get the title of the image
+	title = File.nameWithoutExtension;
+	
+	//Set Scale
+	setTool("line");
+	makeLine(1600, 1800, 2172, 1892);
+	waitForUser("Set the Scale", "Draw Orbital Width: Dacryon>Ectoconchion");
+	run("Set Scale...", "distance=542.3288 known=39.49 unit=mm");
+
+	
+	//Measure total sinus outline
+	setTool("wand");
+	//doWand(2010, 1557);
+	waitForUser("Tool: Magic Wand", "Highlight Blue Sinus Outline");
+	roiManager("Add");
+	roiManager("Select", 5);
+	roiManager("Rename", "Total Sinus");
+	
+	//Make midline to find origin point
+	setTool("line");
+	setLineWidth(3);
+	makeLine(840, 1170, 852, 2634);
+	waitForUser("Align Midline", "Adjust pink midline endpoints or draw a new midline");
+	setForegroundColor(255, 255, 255);
+	run("Fill", "slice");
+	
+	//Draw baseline and note angle for overlay rotation
+	setTool("line");
+	roiManager("Show All with labels");
+	roiManager("Select", 3);
+	waitForUser("Reset Baseline", "1.) Highlight Baseline in ROI Manager; 2.) Grab center point (Line 4) to move line; 3.) move end points;  4.) Record angle from ImageJ operations line");
+	
+	//Move and rotate overlay to outline
+	setTool("wand");
+	makeRectangle(50, 800, 2700, 1800);
+	
+	//enter baseline angle to rotate sinus
+	baselineAngle = getNumber("enter baseline angle", -0.90);
+	run("Rotate... ", "angle=baselineAngle grid=1 interpolation=Bilinear");
+	waitForUser("Move Overlay", "1.)Check 'Show All' and 'Labels' in ROI Manager, 2.)Drag closest-sized overlay and align origin and blue baseline");
+	
+	//Draw right side baseline
+	roiManager("Select", 4);
+	setTool("line");
+	waitForUser("Right-side Baseline", "1.) Highlight right baseline in ROI Manager; 2.) Grab center point (Line 5) to move line; 3.) Move end points to origin, right terminus");
+	
+	//Draw angles
+	setTool("angle");
+	waitForUser("Draw initial 3° angle", "Right terminus > origin > 3°(first ray on right side overlay");
+	roiManager("Add");
+	roiManager("Select", 6);
+	roiManager("Set Color", "yellow");
+	roiManager("Set Line Width", 2);
+	roiManager("update");
+	waitForUser("Drag moveable end of angle line around every 3°, pressing t to record a new ROI for each ray of overlay");
+	
+	
+	//Mesaure all ROIs
+	run("Set Measurements...", "area perimeter display redirect=None decimal=3");
+	roiManager("Select", newArray(3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64));
+	roiManager("Measure");
+
+	
+	//Save results
+	//Change initials of observer
+	waitForUser("Check and change storage folder in the save file path, Macro Line 84");
+	saveAs("results", "R:/Frontal Sinus Project/Cox_AAFS 2022/Auto Data/JC Results/" + title + "_resultsJC1.csv");
+	waitForUser("Check save file; if compromised, select all results and copy into an excel file");
+	
+}
