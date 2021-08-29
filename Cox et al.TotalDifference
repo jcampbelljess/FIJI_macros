@@ -1,3 +1,5 @@
+Macro citation:
+
 input_path = getDirectory("R:/Frontal Sinus Project/Cox_AAFS 2022/Radiographs for AAFS2022/1. Primary.Sample/");
 
 
@@ -12,8 +14,8 @@ for (i = 0; i < fileList.length; i++) {
 	run("Clear Results");
 	
 	//open image
-	open(input_path + fileList[i+1]); //add a +number to change the start image
-	print(input_path + fileList[i+1]); //display the file working on
+	open(input_path + fileList[i+0]); //add a +[the number of images completed] to change the start image
+	print(input_path + fileList[i+0]); //display the file working on
 
 	//get the title of the image
 	title = File.nameWithoutExtension;
@@ -22,7 +24,7 @@ for (i = 0; i < fileList.length; i++) {
 	setTool("line");
 	makeLine(1600, 1800, 2172, 1892);
 	waitForUser("Set the Scale", "Draw Orbital Width: Dacryon>Ectoconchion");
-	run("Set Scale...", "distance=542.3288 known=39.49 unit=mm");
+	run("Set Scale...", "known=39.49 unit=mm");
 
 	
 	//Measure total sinus outline
@@ -54,7 +56,7 @@ for (i = 0; i < fileList.length; i++) {
 	//enter baseline angle to rotate sinus
 	baselineAngle = getNumber("enter baseline angle", -0.90);
 	run("Rotate... ", "angle=baselineAngle grid=1 interpolation=Bilinear");
-	waitForUser("Move Overlay", "1.)Check 'Show All' and 'Labels' in ROI Manager, 2.)Drag closest-sized overlay and align origin and blue baseline");
+	waitForUser("Move Overlay", "1.)Drag closest-sized overlay and align origin and blue baseline");
 	
 	//Draw right side baseline
 	roiManager("Select", 4);
@@ -81,7 +83,7 @@ for (i = 0; i < fileList.length; i++) {
 	//Save results
 	//Change initials of observer
 	waitForUser("Check and change storage folder in the save file path, Macro Line 84");
-	saveAs("results", "R:/Frontal Sinus Project/Cox_AAFS 2022/Auto Data/JC Results/" + title + "_resultsJC1.csv");
+	saveAs("results", "R:/Frontal Sinus Project/Cox_AAFS 2022/Auto Data/JC Results/" + title + "_resultsJC2.csv");
 	waitForUser("Check save file; if compromised, select all results and copy into an excel file");
 	
 }
