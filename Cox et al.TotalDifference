@@ -41,7 +41,7 @@ for (i = 0; i < fileList.length; i++) {
 	title = File.nameWithoutExtension;
 	
 	//Set Scale
-	//Can be changed to match another measureing aid (Line 32, 33).
+	//Can be changed to match another measuring aid (Line 32, 33).
 	setTool("line");
 	makeLine(1600, 1800, 2172, 1892);
 	waitForUser("Set the Scale", "Draw Orbital Width: Dacryon>Ectoconchion"); //if a ruler, change Orbital Width directions
