@@ -1,4 +1,5 @@
-//Macro citation: Campbell, Jessica. 2021. Macro for the Frontal Sinus Total Difference Method.
+//Macro citation: Campbell, Jessica. 2021. Macro for the Frontal Sinus Total Difference Method. Github
+//2022	Campbell J, Butaric L.  A Validation Test of the Total Difference Technique for Assessing the Frontal Sinus.  American Academy of Forensic Sciences 74th Annual Scientific Meeting (poster).  Seattle, WA.
 
 //USER NOTES:  
 //ROI starters file should be downloaded prior to applying this macro, or a new file created and saved.
@@ -10,11 +11,15 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-//START HERE:  USER INPUT REQUIRED
-waitForUser("ONE_TIME USER INPUT REQUIRED IN MACRO", "In quotations, enter path to the folder with stored frontal sinus outlines (Line 5); enter 2 forward slashes in this macro line to prevent recurrance of this popup");
+//START HERE:  USER INPUT REQUIRED: change "input paths" and customizers
+//Change input paths in lines 22, 34 (line numbers preference location in this venue and can change if you copy/paste only select bits of this code)
+//Designate starting image, lines 40, 41
+//Identify and define scalar, lines 50-53
+//Change folder location where you want to write your results into, line 111
+//After you make these changes, click "RUN" or "CTRL+R" to start macro; do not pre-open images
 
 //enter path to the folder where radiograph outline images are stored, in quotations and using forward slashes into parentheses
-input_path = getDirectory("C:/Users/jcampbell/Documents/COX protocol/Radiographs with outlines/1. Primary.Sample"); 
+input_path = getDirectory("C:/Users/your path/folder with images"); 
 //in pop-up click to select folder with images
 
 fileList = getFileList(input_path);
@@ -23,17 +28,15 @@ for (i = 0; i < fileList.length; i++) {
  		
 	//clean to prepare for next image
 	roiManager("reset");
-	// USER INPUT REQUIRED
 	//roi starters can be downloaded from GitHub https://github.com/jcampbelljess/FIJI_macros
-	waitForUser("ONE_TIME USER INPUT REQUIRED IN MACRO", "In quotations, enter the path to the .zip file with the stored roi's (Line 19); enter 2 forward slashes in this macro line to prevent recurrance of this popup");
-	
+		
 	//enter path to the .zip file with stored roi's
-	roiManager("open", "C:/Users/jcampbell/Documents/COX protocol/Radiographs with outlines/1. Primary.Sample/Roi_COXStarters3.zip");
+	roiManager("open", "C:/Users/your path/folder with ROI starters/Roi_COXStarters3.zip");
 	run("Close All"); 
 	run("Clear Results");
 	
 	//open image
-	waitForUser("ONE-TIME user input required in macro", "For the first image in your session: Starting with 0, enter the image number from the folder you want to start working on (Line 25 and 26) ; enter 2 forward slashes in this macro line to prevent recurrance of this popup");
+	//For the first image in your session: Starting with 0, enter the image number from the folder you want to start working on in both of the following lines:
 	open(input_path + fileList[i+0]); //if add a +number; starts with image number "xx" in the file folder
 	print(input_path + fileList[i+0]); //display the file working on
 
@@ -44,8 +47,10 @@ for (i = 0; i < fileList.length; i++) {
 	//Can be changed to match another measuring aid (Line 32, 33).
 	setTool("line");
 	makeLine(1600, 1800, 2172, 1892);
-	waitForUser("Set the Scale", "Draw Orbital Width: Dacryon>Ectoconchion"); //if a ruler, change Orbital Width directions
-	run("Set Scale...", "known=39.49 unit=mm"); //if a ruler, change known to that distance (1 for 1 cm or 1 inch, etc), and the unit (inches, cm, mm, etc)
+	waitForUser("Set the Scale", "Draw Orbital Width: Dacryon>Ectoconchion");
+	run("Set Scale...", "known=39.49 unit=mm"); 
+	//if a ruler was radiographed, change "known=" to that distance (1 for 1 cm or 1 inch, etc), and the "unit=" (inches, cm, mm, etc)
+	//can also change your prompt box; example: "Draw scalar length" in place of "Draw Orbital Width..."
 
 	
 	//Measure total sinus outline
@@ -96,18 +101,14 @@ for (i = 0; i < fileList.length; i++) {
 	roiManager("Set Line Width", 1);
 	roiManager("update");
 	waitForUser("Draw 58 remaining lines to innermost border of furthest intersection with the blue sinus outline", "Drag moveable end of angle line around every 3° (exclude 180°), pressing t to record a new ROI for each ray of overlay");
-	
-	
+		
 	//Mesaure all ROIs
 	run("Set Measurements...", "area perimeter display redirect=None decimal=3");
 	roiManager("Select", newArray(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62));
 	roiManager("Measure");
-
 	
 	//Save results
-	//Change initials of observer
-	waitForUser("Check and change storage folder and file name in the save file path, Macro Line 98");
-	saveAs("results", "C:/Users/jcampbell/Documents/COX protocol/Auto Data/JC Results/" + title + "_Macro_check.csv");
+	saveAs("results", "C:/Users/input path/Results folder/" + title + "_compare.csv");
 	waitForUser("Check save file; if compromised, select all results in results window and copy into an excel file");
 	
 }
