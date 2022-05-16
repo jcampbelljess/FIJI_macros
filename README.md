@@ -1,6 +1,7 @@
 # FIJI_macros
-macros and files created for use with ImageJ and FIJI;
-JL Campbell, 2021
+macros and files created by JL Campbell, 2021 
+for use with ImageJ https://imagej.nih.gov/ij/download.html and FIJI https://imagej.net/software/fiji/downloads;
+
 
 These files were created by Jessica L. Campbell (2021) for a validation test of the Total Difference method first introduced by Cox et al. 2009.  
 The original method was created to be an easier way to quantitively access the outlines of the frontal sinus for individuality for use in 
