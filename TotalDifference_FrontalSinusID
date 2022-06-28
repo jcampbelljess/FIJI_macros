@@ -16,9 +16,10 @@
 //Designate starting image, lines 40, 41
 //Identify and define scalar, lines 50-53
 //Change folder location where you want to write your results into, line 111
+//Make sure all paths and locations use /FORWARD slashes/, if copying the path name from a Windows based system.
 //After you make these changes, click "RUN" or "CTRL+R" to start macro; do not pre-open images
 
-//enter path to the folder where radiograph outline images are stored, in quotations and using forward slashes into parentheses
+//enter path to the folder where radiograph outline images are stored, in quotations and using /forward slashes/ into parentheses
 input_path = getDirectory("C:/Users/your path/folder with images"); 
 //in pop-up click to select folder with images
 
@@ -49,7 +50,7 @@ for (i = 0; i < fileList.length; i++) {
 	makeLine(1600, 1800, 2172, 1892);
 	waitForUser("Set the Scale", "Draw Orbital Width: Dacryon>Ectoconchion");
 	run("Set Scale...", "known=39.49 unit=mm"); 
-	//if a ruler was radiographed, change "known=" to that distance (1 for 1 cm or 1 inch, etc), and the "unit=" (inches, cm, mm, etc)
+	//if a ruler was radiographed, change "known=" to that distance (1 for 1 cm or 1 inch, etc), and the "unit=" (inches, cm, mm, etc.)
 	//can also change your prompt box; example: "Draw scalar length" in place of "Draw Orbital Width..."
 
 	
