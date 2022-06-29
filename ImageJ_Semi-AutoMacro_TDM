@@ -1,4 +1,4 @@
-//Macro citation: Campbell, Jessica. 2021. Macro for the Frontal Sinus Total Difference Method. Github
+//Macro citation (pending pub): Campbell, Jessica. 2021. Macro for the Frontal Sinus Total Difference Method. Github
 //2022	Campbell J, Butaric L.  A Validation Test of the Total Difference Technique for Assessing the Frontal Sinus.  American Academy of Forensic Sciences 74th Annual Scientific Meeting (poster).  Seattle, WA.
 
 //USER NOTES:  
@@ -7,15 +7,16 @@
 //This macro was written in java script, created in FIJI, but can be used in the original ImageJ.
 //Fiji and ImageJ are free to all users!
 //Comments, questions, and changes can be directed to the author.
+//See the TDM_Manual for detailed instructions.
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-//START HERE:  USER INPUT REQUIRED: change "input paths" and customizers
-//Change input paths in lines 22, 34 (line numbers preference location in this venue and can change if you copy/paste only select bits of this code)
-//Designate starting image, lines 40, 41
-//Identify and define scalar, lines 50-53
-//Change folder location where you want to write your results into, line 111
+//START HERE:  USER INPUT REQUIRED: change /input paths/ and customizers
+//Change input paths in lines 24, 36 (line numbers preference location in this venue and can change if you copy/paste or only select bits of this code)
+//Designate starting image, lines 42, 43
+//Identify and define scalar, lines 52-55
+//Change folder location where you want to write your results into, line 113
 //Make sure all paths and locations use /FORWARD slashes/, if copying the path name from a Windows based system.
 //After you make these changes, click "RUN" or "CTRL+R" to start macro; do not pre-open images
 
@@ -29,10 +30,10 @@ for (i = 0; i < fileList.length; i++) {
  		
 	//clean to prepare for next image
 	roiManager("reset");
-	//roi starters can be downloaded from GitHub https://github.com/jcampbelljess/FIJI_macros
+	//roi starters can be downloaded from GitHub https://github.com/jcampbelljess/FrontalSinus_TD_macros/RoiStarters
 		
 	//enter path to the .zip file with stored roi's
-	roiManager("open", "C:/Users/your path/folder with ROI starters/Roi_COXStarters3.zip");
+	roiManager("open", "C:/Users/your path/folder with ROI starters/RoiStarters.zip");
 	run("Close All"); 
 	run("Clear Results");
 	
@@ -45,13 +46,13 @@ for (i = 0; i < fileList.length; i++) {
 	title = File.nameWithoutExtension;
 	
 	//Set Scale
-	//Can be changed to match another measuring aid (Line 32, 33).
+	//Can be changed to match another measuring aid or radiographic scale bar.
 	setTool("line");
 	makeLine(1600, 1800, 2172, 1892);
-	waitForUser("Set the Scale", "Draw Orbital Width: Dacryon>Ectoconchion");
+	waitForUser("Set the Scale", "Draw Orbital Breadth: Dacryon>Ectoconchion");
 	run("Set Scale...", "known=39.49 unit=mm"); 
 	//if a ruler was radiographed, change "known=" to that distance (1 for 1 cm or 1 inch, etc), and the "unit=" (inches, cm, mm, etc.)
-	//can also change your prompt box; example: "Draw scalar length" in place of "Draw Orbital Width..."
+	//can also change your prompt box above; example: "Draw scalar length" in place of "Draw Orbital Breadth..."
 
 	
 	//Measure total sinus outline
@@ -67,7 +68,7 @@ for (i = 0; i < fileList.length; i++) {
 	setTool("line");
 	setLineWidth(3);
 	makeLine(840, 1170, 852, 2634);
-	waitForUser("Align Midline", "Adjust pink midline endpoints or draw a new midline");
+	waitForUser("Align Midline", "Adjust midline endpoints or draw a new midline");
 	setForegroundColor(255, 255, 255);
 	run("Fill", "slice");
 	
@@ -75,23 +76,26 @@ for (i = 0; i < fileList.length; i++) {
 	setTool("line");
 	roiManager("Show All with labels");
 	roiManager("Select", 1);
-	waitForUser("Reset YELLOW Baseline", "1.) Grab center point (ROI Label #2) to move line 2.) move end points 3.) Record angle from ImageJ operations line");
-	Roi.move(500, 2700);;
+	waitForUser("Reset Baseline", "1.) Grab center point (ROI Label #2) to move line 2.) Move end points 3.) Record angle from ImageJ operations line");
+	Roi.move(500, 2700);
+	
+	//Rotate overlay to outline
+	setTool("wand");
+	makeRectangle(50, 500, 2700, 1800); // rectangle must include sinus outline
+	
+	//Enter baseline angle to rotate sinus
+	baselineAngle = getNumber("Enter baseline angle", -0.90);
+	run("Rotate... ", "angle=baselineAngle grid=1 interpolation=Bilinear");
 	
 	//Draw right side baseline
 	roiManager("Select", 2);
 	setTool("line");
-	waitForUser("Right-side GREEN Baseline", "1.) Grab center point (ROI Label #3) to move line; 3.) Move end points to origin, right terminus");
+	waitForUser("Set Right-side Baseline", "1.) Grab center point (ROI Label #3) to move line; 2.) Move end points to origin, right terminus");
 	Roi.move(600, 2800);
 	
-	//Move and rotate overlay to outline
-	setTool("wand");
-	makeRectangle(50, 500, 2700, 1800); //must include sinus outline
-	
-	//enter baseline angle to rotate sinus
-	baselineAngle = getNumber("Enter baseline angle", -0.90);
-	run("Rotate... ", "angle=baselineAngle grid=1 interpolation=Bilinear");
-	waitForUser("Move Overlay", "1.) Use arrow keys or grab the center point (ROI Label #1) to drag overlay; align origin and blue baseline");
+	//Move Overlay
+	roiManager("Select", 0);
+	waitForUser("Move Overlay", "1.) Use arrow keys or grab the center point (ROI Label #1) to drag overlay; align origin and pre-existing sinus outline baseline");
 	
 	//Draw angles
 	setTool("angle");
