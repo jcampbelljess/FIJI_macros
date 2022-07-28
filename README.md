@@ -3,7 +3,8 @@ macros and files created by JL Campbell, 2021
 for use with ImageJ https://imagej.nih.gov/ij/download.html and FIJI https://imagej.net/software/fiji/downloads;
 
 
-These files were created by Jessica L. Campbell (2021) for a validation test of the Total Difference method first introduced by Cox et al. 2009.  
+These files were created by Jessica L. Campbell (2021) for a validation test of the Total Difference method first introduced by Cox et al. 2009.  The accompanying publication is open source:  Campbell, J.L.; Butaric, L.N. Technical Modifications for the Application of the Total Difference Method for Frontal Sinus Comparison. Biology 2022, 11, 1075. https:// doi.org/10.3390/biology11071075
+
 The original method was created to be an easier way to quantitively access the outlines of the frontal sinus for individuality for use in 
 personal identification of unidentified skeletal remains, when antemortem radiographs were available for comparison.  It is for 1:1 comparisons, and is not an optimal method for arrays.
 
